@@ -22,7 +22,7 @@ namespace CadastroDeEstudantes.Service
         public async Task<ActionResult<Estudante>> SelecionarEstudante(string email)
         {
             Estudante estudante = await _context.Estudantes.AsNoTracking().FirstOrDefaultAsync(e => e.Email == email);
-            return estudante;
+            return new OkObjectResult(estudante);
         }
         public async Task<ActionResult<Estudante>> RegistrarEstudante(EstudanteDTO estudanteDTO)
         {
@@ -32,7 +32,6 @@ namespace CadastroDeEstudantes.Service
             }
 
             _password.CriarSenhaEmHashESalt(estudanteDTO.Senha, out byte[] hash, out byte[] salt);
-
             var estudante = new Estudante()
             {
                 SenhaHash = hash,
@@ -42,10 +41,8 @@ namespace CadastroDeEstudantes.Service
                 Email = estudanteDTO.Email.ToLower(),
                 InstituicaoID = estudanteDTO.InstituicaoID,
             };
-
             await _context.Estudantes.AddAsync(estudante);
             await _context.SaveChangesAsync();
-
             return new CreatedResult(nameof(SelecionarEstudante), estudante);
         }
 
