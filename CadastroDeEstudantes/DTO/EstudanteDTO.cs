@@ -15,7 +15,7 @@ namespace CadastroDeEstudantes.DTO
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Esse campo é obrigatório!")]
-        public byte[] SenhaHash { get; set; }
+        public string Senha { get; set; }
 
         [Required(ErrorMessage = "Esse campo é obrigatório!")]
         public int InstituicaoID { get; set; }

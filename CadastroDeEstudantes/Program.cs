@@ -1,4 +1,6 @@
 using CadastroDeEstudantes.Data;
+using CadastroDeEstudantes.Password;
+using CadastroDeEstudantes.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddTransient<IEstudanteService, EstudanteService>();
+builder.Services.AddTransient<PasswordHashAndSalt, PasswordHashAndSalt>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDbContext<CadastroContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
