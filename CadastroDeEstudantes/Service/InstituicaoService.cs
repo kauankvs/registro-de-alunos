@@ -8,7 +8,7 @@ namespace CadastroDeEstudantes.Service
 {  
     public class InstituicaoService : IInstituicaoService
     {
-        private CadastroContext _context;
+        private readonly CadastroContext _context;
 
         public InstituicaoService(CadastroContext context)
         {
