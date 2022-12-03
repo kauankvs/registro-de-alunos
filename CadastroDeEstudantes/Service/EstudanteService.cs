@@ -47,15 +47,15 @@ namespace CadastroDeEstudantes.Service
             return new CreatedResult(nameof(SelecionarEstudante), estudante);
         }
 
-        public async Task<ActionResult<string>> Login(EstudanteLoginESenhaDTO estudante) 
+        public async Task<ActionResult<string>> Login(string email, string senha) 
         {
-            if(ChecarSeEstudanteExiste(estudante.Email).Equals(false))
+            if(ChecarSeEstudanteExiste(email).Equals(false))
                 return new NotFoundResult();
             
-            if(VerificarSeSenhaECerta(estudante.Email, estudante.Senha).Equals(false))
+            if(VerificarSeSenhaECerta(email, senha).Equals(false))
                 return new BadRequestResult(); 
             
-            return _tokenService.GerarToken(estudante.Email);
+            return _tokenService.GerarToken(email);
         }
 
         public async Task<ActionResult<Estudante>> DeletarEstudante(string email, string senha)
@@ -80,7 +80,8 @@ namespace CadastroDeEstudantes.Service
 
          public async Task<bool> ChecarSeEstudanteExiste(string email)
         {
-            Estudante estudante = await _context.Estudantes.FirstOrDefaultAsync(e => e.Email == email);
+            Estudante estudante = null;
+            estudante = await _context.Estudantes.FirstOrDefaultAsync(e => e.Email == email);
             return estudante != null;
         }
 

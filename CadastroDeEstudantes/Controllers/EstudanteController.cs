@@ -23,12 +23,12 @@ namespace CadastroDeEstudantes.Controllers
             _service = service;
         }
 
-        [Route("selecionar/{email}")]
+        [Route("selecionar/eu")]
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<Estudante>> SelecionarEstudante([FromHeader(Name = "Email")] string email)
+        public async Task<ActionResult<Estudante>> SelecionarEstudante([FromBody] EstudanteLoginESenhaDTO estudante)
         {
-            return await _service.SelecionarEstudante(email);
+            return await _service.SelecionarEstudante(estudante.Email);
         }
 
         [Route("registro")]
@@ -44,15 +44,15 @@ namespace CadastroDeEstudantes.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<string>> Login([FromBody] EstudanteLoginESenhaDTO estudante) 
         {
-            return await _service.Login(estudante);
+            return await _service.Login(estudante.Email, estudante.Senha);
         }
 
         [Route("deletar")]
         [HttpDelete]
         [Authorize]
-        public async Task<ActionResult<Estudante>> DeletarEstudante([FromHeader(Name = "Email")] string email, [FromBody] string senha)
+        public async Task<ActionResult<Estudante>> DeletarEstudante([FromBody] EstudanteLoginESenhaDTO estudante)
         {
-            return await _service.DeletarEstudante(email, senha);
+            return await _service.DeletarEstudante(estudante.Email, estudante.Senha);
         }
 
         [Route("emails")]
